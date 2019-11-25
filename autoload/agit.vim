@@ -37,6 +37,8 @@ call s:parser.on('--dir=VALUE', 'Launch Agit on the specified directory instead 
 \ {'completion' : 'file', 'default': ''})
 call s:parser.on('--file=VALUE', 'Specify file name traced by Agit file. (Available on Agit file)',
 \ {'completion' : 'file', 'default': '%'})
+call s:parser.on('--logpath=VALUE', 'Launch Agit on the specified logpath instead of the buffer directory.',
+\ {'completion' : 'file', 'default': ''})
 
 function! agit#complete_command(arglead, cmdline, cursorpos)
   return s:parser.complete_greedily(a:arglead, a:cmdline, a:cursorpos)
@@ -62,6 +64,7 @@ function! agit#launch(args)
     if parsed_args.presetname ==# 'file' && agit#git#exec('ls-files "' . filepath . '"', git.git_root) ==# ''
       throw "Agit: File not tracked: " . parsed_args.file
     endif
+	let git.logpath = expand(parsed_args.logpath)
     let git.filepath = filepath
     let git.views = parsed_args.preset
     if g:agit_reuse_tab

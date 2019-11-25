@@ -26,6 +26,7 @@ let s:git = {
 \   'line' : 0,
 \ },
 \ 'head' : '',
+\ 'logpath' : '',
 \ }
 
 function! s:git.relpath() abort
@@ -37,7 +38,7 @@ endfunction
 
 function! s:git.log(winwidth) dict
   let max_count = g:agit_max_log_lines + 1
-  let gitlog = agit#git#exec('log --all --graph --decorate=full --no-color --date=relative --max-count=' . max_count . ' --format=format:"%d %s' . s:sep . '|>%ad<|' . s:sep . '{>%an<}' . s:sep . '[%h]"', self.git_root)
+  let gitlog = agit#git#exec('log --all --graph --decorate=full --no-color --date=relative --max-count=' . max_count . ' --format=format:"%d %s' . s:sep . '|>%ad<|' . s:sep . '{>%an<}' . s:sep . '[%h]" ' . self.logpath, self.git_root)
   " 16 means concealed symbol (4*2 + 2) + hash (7) - right eade margin (1)
   let max_width = a:winwidth + 16
   let gitlog = substitute(gitlog, '\<refs/heads/', '', 'g')
