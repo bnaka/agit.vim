@@ -143,7 +143,7 @@ function! s:git.diff(hash) dict
     let diff = ''
   else
     let ignoresp = g:agit_ignore_spaces ? '-w' : ''
-    let diff = agit#git#exec('show -p '. ignoresp .' ' . a:hash, self.git_root)
+    let diff = agit#git#exec('show -p '. ignoresp .' ' . a:hash . ' ' . g:agit_show_commit_opt, self.git_root)
   endif
   return diff
 endfunction
